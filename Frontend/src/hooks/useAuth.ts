@@ -22,7 +22,12 @@ const isAxiosError = (error: unknown): error is AxiosError => {
 };
 
 const registerUser = async (body: RegisterForm) => {
-  const res = await axios.post<AuthResponse>("/users/register", body);
+  console.log("Register Data", body);
+  const res = await axios.post<AuthResponse>("/users/register", body, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   return res.data;
 };
 
@@ -49,21 +54,20 @@ export const useAuth = () => {
             : "Failed to Register!"
         );
       }
+      console.log(err);
     },
   });
 
   const login = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      console.log("Saving token:", data.token);
       localStorage.setItem("token", data.token);
-      console.log("LocalStorage now has:", localStorage.getItem("token"));
 
       toast.success("User logged in Successfully!");
       navigate("/dashboard");
     },
     onError: (err: unknown) => {
-      console.log("❌ Login Error:", err); // 👈 inspect errors too
+      console.log("❌ Login Error:", err);
       if (isAxiosError(err)) {
         toast.error(
           err.response?.status === 400

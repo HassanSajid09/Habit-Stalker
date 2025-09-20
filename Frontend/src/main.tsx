@@ -15,6 +15,7 @@ import { Toaster } from "react-hot-toast";
 import PrvRoute from "./Routes/PrvRoute.tsx";
 import PubRoute from "./Routes/PubRoute.tsx";
 import ManageHabits from "./components/Habits/ManageHabits.tsx";
+import HabitForm from "./components/Habits/HabitForm.tsx";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "/habits",
         element: <ManageHabits />,
+      },
+      {
+        path: "/create-habit",
+        element: <HabitForm />,
       },
     ],
   },

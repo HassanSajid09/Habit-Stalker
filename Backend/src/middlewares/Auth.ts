@@ -22,8 +22,6 @@ const Auth = (req: AuthRequest, res: Response, next: NextFunction) => {
       process.env.JWT_SECRET as string
     ) as JwtPayload;
     req.user = decoded.user;
-    console.log("Auth Middleware Token:", token);
-    console.log("Decoded:", decoded);
     next();
   } catch (err) {
     return res.status(401).json({ message: "User not authorized" });

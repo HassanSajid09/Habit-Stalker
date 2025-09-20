@@ -1,30 +1,23 @@
 import { useState } from "react";
 import NavBar from "../Layout/NavBar";
 import SidePanel from "../Layout/SidePanel";
+import { NavLink } from "react-router-dom";
+import { useHabits } from "../../hooks/habits";
+import HabitItem from "./HabitItem";
+import toast from "react-hot-toast";
 
 const ManageHabits = () => {
   const [sortMode, setSortMode] = useState<"time" | "category" | "priority">(
     "time"
   );
-
-  const habits = [
-    {
-      id: 1,
-      title: "Drink 2L Water",
-      category: "Health",
-      priority: "important",
-    },
-    { id: 2, title: "Morning Run", category: "Fitness", priority: "moderate" },
-    { id: 3, title: "Read 10 Pages", category: "Mindset", priority: "low" },
-  ];
+  const { Habits = [], isError, isPending } = useHabits();
 
   const priorityMap: Record<string, number> = {
     important: 1,
     moderate: 2,
     low: 3,
   };
-
-  const sortedHabits = [...habits].sort((a, b) => {
+  const sortedHabits = [...Habits].sort((a, b) => {
     if (sortMode === "category") return a.category.localeCompare(b.category);
     if (sortMode === "priority")
       return priorityMap[a.priority] - priorityMap[b.priority];
@@ -45,7 +38,10 @@ const ManageHabits = () => {
         </div>
 
         {/* Page Content */}
-        <div className="flex-1 min-h-screen bg-stalker-offwhite p-8 mt-24 md:mt-0 md:p-20 md:ml-64">
+        <div className="flex-1 min-h-screen bg-stalker-offwhite p-8 mt-24 md:mt-0 md:p-20 md:ml-80">
+          {isPending && <p className="text-stalker-brown">Loading Data...</p>}
+          {isError &&
+            toast.error("Failed to load habits, please try again later!")}
           {/* Header */}
           <div className="relative mb-12 overflow-hidden">
             <div className="flex items-center justify-between relative z-10">
@@ -57,9 +53,12 @@ const ManageHabits = () => {
                   Track progress. Stay consistent. Grow stronger daily.
                 </p>
               </div>
-              <button className="inline-flex items-center justify-center px-8 py-3 bg-stalker-brown text-stalker-offwhite rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition font-semibold mr-3">
+              <NavLink
+                to="/create-habit"
+                className="inline-flex items-center justify-center px-6 md:px-8 py-3 bg-stalker-brown text-stalker-offwhite rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition font-semibold mr-3"
+              >
                 + Add Habit
-              </button>
+              </NavLink>
             </div>
 
             {/* Mobile Background Accent */}
@@ -76,7 +75,6 @@ const ManageHabits = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* LEFT SIDE: Buttons + Habits */}
             <div className="lg:col-span-2 flex flex-col gap-6">
-              {/* Sorting buttons */}
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => setSortMode("time")}
@@ -110,27 +108,9 @@ const ManageHabits = () => {
                 </button>
               </div>
 
-              {/* Habits List */}
-              <div className="space-y-4">
-                {sortedHabits.map((habit) => (
-                  <div
-                    key={habit.id}
-                    className="flex items-center justify-between p-5 rounded-2xl shadow-md border-l-4 border-stalker-brown bg-white hover:shadow-lg hover:-translate-y-1 transition"
-                  >
-                    <div className="flex flex-col">
-                      <span className="text-lg font-semibold text-stalker-brown">
-                        {habit.title}
-                      </span>
-                      <p className="ml-1 text-sm text-stalker-brown/60 italic">
-                        {habit.category} | {habit.priority}
-                      </p>
-                    </div>
-                    <button className="p-2 rounded-full hover:bg-red-100 transition">
-                      🗑
-                    </button>
-                  </div>
-                ))}
-              </div>
+              {sortedHabits?.map((habit) => (
+                <HabitItem key={habit._id} habit={habit} />
+              ))}
             </div>
 
             {/* Right: Motivation / Streaks / Progress */}

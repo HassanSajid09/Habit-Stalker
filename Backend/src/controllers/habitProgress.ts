@@ -25,7 +25,7 @@ export const checkInToHabit = async (req: Request, res: Response) => {
     } else if (habit.frequency === "weekly") {
       const today = new Date();
       const firstDayOfWeek = new Date(today);
-      firstDayOfWeek.setDate(today.getDate()) - today.getDay();
+      firstDayOfWeek.setDate(today.getDate() - today.getDay());
       firstDayOfWeek.setHours(0, 0, 0, 0);
 
       const lastDayOfWeek = new Date(firstDayOfWeek);
@@ -70,6 +70,7 @@ export const checkInToHabit = async (req: Request, res: Response) => {
     });
   } catch (err) {
     res.status(500).json({ message: "Internal Server Error" });
+    console.log(err);
   }
 };
 
@@ -182,6 +183,30 @@ export const checkout = async (req: Request, res: Response) => {
     }
 
     res.status(200).json({ message: "Checkout Successfull" });
+  } catch (err) {
+    res.status(500).json({ message: "Internal Server Error" });
+    console.log(err);
+  }
+};
+
+export const completedHabits = async (req: Request, res: Response) => {
+  try {
+    const userId = (req.user as { id: string }).id;
+    const totalHabits = await Habits.countDocuments({ user: userId });
+
+    const completedHabits = await HabitsProgress.distinct("habit", {
+      user: userId,
+      completed: true,
+    });
+
+    const progress =
+      totalHabits > 0 ? (completedHabits.length / totalHabits) * 100 : 0;
+
+    res.json({
+      totalHabits,
+      completedHabits: completedHabits.length,
+      progress: progress.toFixed(2),
+    });
   } catch (err) {
     res.status(500).json({ message: "Internal Server Error" });
     console.log(err);

@@ -43,7 +43,7 @@ const Signup = () => {
   const linksUnderline = `relative text-stalker-offwhite transition duration-300 after:content-[''] after:absolute after:left-1/2 after:-bottom-1 after:w-0 after:h-[2px] after:bg-stalker-offwhite after:transition-all after:duration-300 after:ease-out hover:after:left-0 hover:after:w-full`;
   return (
     <>
-      <section className="bg-stalker-offwhite min-h-screen flex items-center justify-center">
+      <section className="bg-stalker-offwhite min-h-screen flex items-center justify-center font-montserrat">
         <div className="bg-stalker-brown w-full max-w-md rounded-2xl shadow-xl p-10">
           <h1 className="text-stalker-offwhite text-4xl font-bold text-center mb-8">
             Sign Up

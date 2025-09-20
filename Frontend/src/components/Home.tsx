@@ -12,7 +12,7 @@ export default function Home() {
     <>
       <div className="flex">
         {/* Sidebar (only on md and above) */}
-        <div className="hidden md:block fixed top-0 left-0 h-screen w-64 z-20">
+        <div className="hidden lg:block fixed top-0 left-0 h-screen w-64 z-20">
           <SidePanel />
         </div>
 
@@ -23,7 +23,7 @@ export default function Home() {
 
         {/* Main Content */}
         <div
-          className="flex-1 flex flex-col min-h-screen font-montserrat 
+          className="flex-1 flex flex-col min-h-screen font-montserrat
                   ml-0 md:ml-64 pt-16 md:pt-0"
         >
           {/* Hero Section */}
@@ -55,6 +55,7 @@ export default function Home() {
               </div>
             </div>
           </header>
+          <h1 className=""></h1>
 
           {/* Features Section */}
           <section id="features" className="py-24 px-6 bg-stalker-offwhite">
