@@ -4,13 +4,12 @@ import SidePanel from "../Layout/SidePanel";
 import { NavLink } from "react-router-dom";
 import { useHabits } from "../../hooks/habits";
 import HabitItem from "./HabitItem";
-import toast from "react-hot-toast";
 
 const ManageHabits = () => {
   const [sortMode, setSortMode] = useState<"time" | "category" | "priority">(
     "time"
   );
-  const { Habits = [], isError, isPending } = useHabits();
+  const { Habits = [] } = useHabits();
 
   const priorityMap: Record<string, number> = {
     important: 1,
@@ -28,20 +27,20 @@ const ManageHabits = () => {
     <>
       <div className="flex font-montserrat">
         {/* Desktop Sidebar */}
-        <div className="hidden md:block fixed top-0 left-0 h-screen w-64 z-20">
+        <div className="hidden lg:block fixed top-0 left-0 h-screen z-20">
           <SidePanel />
         </div>
 
         {/* Mobile Navbar */}
-        <div className="block md:hidden w-full fixed top-0 left-0 z-20">
+        <div className="block lg:hidden w-full fixed top-0 left-0 z-20">
           <NavBar />
         </div>
 
         {/* Page Content */}
-        <div className="flex-1 min-h-screen bg-stalker-offwhite p-8 mt-24 md:mt-0 md:p-20 md:ml-80">
-          {isPending && <p className="text-stalker-brown">Loading Data...</p>}
+        <div className="flex-1 min-h-screen bg-stalker-offwhite p-8 mt-24 md:mt-10 lg:mt-0 md:p-20 lg:ml-80">
+          {/* {isPending && <p className="text-stalker-brown">Loading Data...</p>}
           {isError &&
-            toast.error("Failed to load habits, please try again later!")}
+            toast.error("Failed to load habits, please try again later!")} */}
           {/* Header */}
           <div className="relative mb-12 overflow-hidden">
             <div className="flex items-center justify-between relative z-10">
@@ -55,7 +54,7 @@ const ManageHabits = () => {
               </div>
               <NavLink
                 to="/create-habit"
-                className="inline-flex items-center justify-center px-6 md:px-8 py-3 bg-stalker-brown text-stalker-offwhite rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition font-semibold mr-3"
+                className="inline-flex items-center justify-center px-6 md:px-8 py-2 bg-stalker-brown text-stalker-offwhite rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition font-semibold mr-3"
               >
                 + Add Habit
               </NavLink>

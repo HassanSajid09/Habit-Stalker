@@ -15,6 +15,7 @@ export const createHabit = async (
     );
 
     res.status(200).json({ message: "Habit created Successfully", habit });
+    console.log("Hello i am a new habit creation route ");
   } catch (err) {
     res.status(500).json({ message: "Error creating Habit", err });
     console.log("Error:", err);
@@ -59,6 +60,8 @@ export const getHabitByCategory = async (req: Request, res: Response) => {
       user: req.user?.id,
       category: req.params.category,
     });
+    console.log("Category param:", req.params.category);
+    console.log("User ID:", req.user?.id);
     res.status(200).json(habits);
   } catch (err) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -72,6 +75,8 @@ export const getHabitByPriority = async (req: Request, res: Response) => {
       user: req.user?.id,
       priority: req.params.priority,
     });
+    console.log("Priority param:", req.params.priority);
+    console.log("User ID:", req.user?.id);
 
     res.status(200).json(habits);
   } catch (err) {

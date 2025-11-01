@@ -27,7 +27,8 @@ export default function SidePanel() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 h-screen w-1/5 bg-gradient-to-b from-stalker-offwhite to-stalker-brown font-montserrat">
+      {/* <div className="hidden md:block fixed top-0 left-0 h-screen w-64 z-20"> */}
+      <div className="h-screen w-64  lg:w-80 bg-gradient-to-b from-stalker-offwhite to-stalker-brown font-montserrat">
         <div className="h-full w-full py-20">
           <h2 className="px-8 pb-10 text-3xl text-stalker-brown">Hi, John</h2>
 
@@ -92,6 +93,7 @@ export default function SidePanel() {
           </nav>
         </div>
       </div>
+      {/* </div> */}
     </>
   );
 }

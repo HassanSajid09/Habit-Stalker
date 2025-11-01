@@ -1,8 +1,8 @@
 export interface HabitsType {
-  id?: string;
+  _id?: string;
   title: string;
   description: string;
   category: string;
-  priority: "important";
+  priority: "important" | string;
   frequency: "daily";
 }

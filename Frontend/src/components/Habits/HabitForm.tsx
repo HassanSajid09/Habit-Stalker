@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, useParams } from "react-router-dom";
 import type { HabitsType } from "../../types/types";
 import { useHabits } from "../../hooks/habits";
+import { useQuery } from "@tanstack/react-query";
 
 const HabitForm = () => {
   const [formData, setFormData] = useState<HabitsType>({
@@ -21,24 +22,52 @@ const HabitForm = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value.toLowerCase(),
     }));
   };
 
-  const { create } = useHabits();
-  const { title, description, category, frequency, priority } = formData;
+  const { create, getOneHabit } = useHabits();
+  const { id } = useParams();
+  const isEditMode = !!id;
+
+  const { data: habit } = useQuery({
+    queryKey: ["Habit", id],
+    queryFn: getOneHabit,
+    enabled: !!isEditMode,
+  });
+
+  useEffect(() => {
+    if (habit) {
+      setFormData({
+        title: habit.title,
+        category: habit.category,
+        description: habit.description,
+        frequency: habit.frequency,
+        priority: habit.priority,
+      });
+    }
+  }, [habit]);
+
+  // const { title, description, category, frequency, priority } = formData;
 
   const body = {
-    title,
-    description,
-    category,
-    frequency,
-    priority,
+    ...formData,
+    priority: formData.priority.toLowerCase(),
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    create.mutate({ body });
+
+    const payload = isEditMode
+      ? { _id: id, ...body } // for update
+      : { ...body };
+
+    // if (isEditMode) {
+    //   create.mutate({ body });
+    // } else {
+    //   create.mutate({ body });
+    // }
+    create.mutate({ body: payload });
   };
   return (
     <>
@@ -47,7 +76,11 @@ const HabitForm = () => {
         <div>
           <header className="bg-stalker-brown text-stalker-offwhite py-10 px-6 text-center shadow-md">
             <h1 className="text-4xl font-extrabold tracking-wide mb-2">
-              Let’s Build Your Next Habit 🚀
+              {isEditMode ? (
+                <span>Let's Take Your Habit To The Next Level 🚀</span>
+              ) : (
+                <span>Let’s Build Your Next Habit 🚀</span>
+              )}
             </h1>
             <p className="text-lg opacity-90">
               Small steps daily lead to big transformations.
@@ -68,7 +101,11 @@ const HabitForm = () => {
         >
           <section className="bg-stalker-brown text-stalker-offwhite rounded-2xl shadow-lg p-10 space-y-8">
             <h2 className="text-2xl font-bold text-center mb-4">
-              New Habit Blueprint
+              {isEditMode ? (
+                <span>Update Your Habit</span>
+              ) : (
+                <span>New Habit Blueprint</span>
+              )}
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -140,9 +177,9 @@ const HabitForm = () => {
                   onChange={handleData}
                   value={formData.priority}
                 >
-                  <option value="Important">Important</option>
-                  <option value="Moderate">Moderate</option>
-                  <option value="low">Low</option>
+                  <option value="Important">important</option>
+                  <option value="Moderate">moderate</option>
+                  <option value="low">low</option>
                 </select>
               </div>
             </div>
@@ -151,7 +188,7 @@ const HabitForm = () => {
               type="submit"
               className="w-full bg-stalker-brown text-stalker-offwhite border border-stalker-offwhite py-4 rounded-xl font-bold tracking-wide hover:bg-stalker-offwhite hover:text-stalker-brown hover:border-stalker-brown transition transform hover:scale-[1.02] shadow-md"
             >
-              Add Habit
+              {isEditMode ? <span>Save</span> : <span>Add</span>} Habit
             </button>
           </section>
         </form>

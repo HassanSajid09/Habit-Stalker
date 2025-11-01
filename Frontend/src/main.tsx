@@ -16,6 +16,7 @@ import PrvRoute from "./Routes/PrvRoute.tsx";
 import PubRoute from "./Routes/PubRoute.tsx";
 import ManageHabits from "./components/Habits/ManageHabits.tsx";
 import HabitForm from "./components/Habits/HabitForm.tsx";
+import HabitContent from "./components/Habits/HabitContent.tsx";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,14 @@ const router = createBrowserRouter([
       },
       {
         path: "/create-habit",
+        element: <HabitForm />,
+      },
+      {
+        path: "/habit/:id",
+        element: <HabitContent />,
+      },
+      {
+        path: "/habit/edit/:id",
         element: <HabitForm />,
       },
     ],

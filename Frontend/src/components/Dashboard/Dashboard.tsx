@@ -11,14 +11,14 @@ export default function Dashboard() {
   return (
     <div className="flex">
       {/* Sidebar (only md and up) */}
-      <div className="hidden md:block fixed top-0 left-0 h-screen w-64 bg-stalker-offwhite shadow-lg z-20">
+      <div className="hidden lg:block fixed top-0 left-0 h-screen z-20">
         <SidePanel />
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-h-screen font-montserrat md:ml-72">
+      <div className="flex-1 flex flex-col min-h-screen font-montserrat lg:ml-80">
         {/* Navbar (only small screens) */}
-        <div className="md:hidden">
+        <div className="block lg:hidden w-full fixed top-0 left-0 z-20">
           <NavBar />
         </div>
 

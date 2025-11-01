@@ -11,6 +11,7 @@ interface AuthRequest extends Request {
 const Auth = (req: AuthRequest, res: Response, next: NextFunction) => {
   const bearerHeader = req.header("Authorization");
   const token = bearerHeader?.split(" ")[1];
+  console.log("Auth header:", req.headers.authorization);
 
   if (!token) {
     return res.status(401).json({ message: "User not authorized" });

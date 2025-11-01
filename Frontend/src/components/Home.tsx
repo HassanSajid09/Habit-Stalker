@@ -12,19 +12,19 @@ export default function Home() {
     <>
       <div className="flex">
         {/* Sidebar (only on md and above) */}
-        <div className="hidden lg:block fixed top-0 left-0 h-screen w-64 z-20">
+        <div className="hidden lg:block fixed top-0 left-0 h-screen z-20">
           <SidePanel />
         </div>
 
         {/* Navbar (only on small screens) */}
-        <div className="block md:hidden w-full fixed top-0 left-0 z-20">
+        <div className="block lg:hidden w-full fixed top-0 left-0 z-20">
           <NavBar />
         </div>
 
         {/* Main Content */}
         <div
           className="flex-1 flex flex-col min-h-screen font-montserrat
-                  ml-0 md:ml-64 pt-16 md:pt-0"
+                  ml-0 lg:ml-64 pt-16 md:pt-16 lg:pt-0"
         >
           {/* Hero Section */}
           <header className="bg-stalker-brown text-stalker-offwhite py-24 px-6 text-center relative overflow-hidden">
